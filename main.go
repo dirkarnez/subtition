@@ -26,10 +26,10 @@ func main() {
 	sampleRate, _ := strconv.ParseFloat(session.SelectAttr("sampleRate"), 32)
 
 	var subtitles []srt.Subtitle
-	for _, audioClip := range session.SelectElements("/tracks/audioTrack/audioClip") {
+	for i, audioClip := range session.SelectElements("/tracks/audioTrack/audioClip") {
 		startPoint, _ := strconv.ParseFloat(audioClip.SelectAttr("startPoint"), 32)
 		endPoint, _ := strconv.ParseFloat(audioClip.SelectAttr("endPoint"), 32)
-		subtitles = append(subtitles, *srt.CreateSubtitle(1, format(startPoint/sampleRate), format(endPoint/sampleRate), []string{audioClip.SelectAttr("name")}))
+		subtitles = append(subtitles, *srt.CreateSubtitle(i+1, format(startPoint/sampleRate), format(endPoint/sampleRate), []string{audioClip.SelectAttr("name")}))
 	}
 
 	subRip := &srt.SubRip{Subtitle: struct {
